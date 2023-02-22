@@ -18,7 +18,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json'
   },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
+  plugins: ['react', 'prettier', 'tailwindcss', '@typescript-eslint'],
   rules: {
     'import/extensions': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
@@ -38,15 +38,16 @@ module.exports = {
     'no-confusing-arrow': 'off',
     'function-paren-newline': 'off',
     'implicit-arrow-linebreak': 'off',
+    indent: 'off',
     'react/no-unused-prop-types': 'off',
     'max-len': 'off',
     'no-shadow': 'off',
     'react/prop-types': 'off',
     'react/jsx-curly-newline': 'off',
     'react/no-unknown-property': 'off',
-    'linebreak-style': 'off',
-    indent: 'off',
-    quotes: ['error', 'single'],
-    semi: ['error', 'always']
+    'tailwindcss/classnames-order': 'off',
+    'tailwindcss/no-custom-classname': 'off',
+    'typescript-eslint/no-unused-vars': 'off',
+    'linebreak-style': 'off'
   }
 };
