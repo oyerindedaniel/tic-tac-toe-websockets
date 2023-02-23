@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="m-auto max-w-[1750px]">
       <header className="relative h-[100vh] w-full overflow-hidden bg-blue">
-        <div className="absolute top-1/2 left-1/2 h-full max-h-[30rem] w-full max-w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-lightBlue blur-3xl">
+        <div className="absolute top-1/2 left-1/2 h-full max-h-[35rem] w-full max-w-[35rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-lightBlue blur-3xl">
           &nbsp;
         </div>
         <div className="absolute left-1/2 top-1/2 z-50 inline w-[60%] -translate-x-1/2 -translate-y-1/2 sm:w-[55%] md:w-[45%]">
@@ -18,19 +18,14 @@ const Home = () => {
               onClick={() => navigate('/user')}
               className="button flex items-center gap-1 sm:top-[80%]"
             >
-              <img className="h-6 w-6 md:h-8 md:w-8" src={XTicTacToeImg} alt="" />
-              <span className="text-xl md:text-2xl">Start</span>
-              <img className="h-6 w-6 md:h-8 md:w-8" src={OTicTacToeImg} alt="" />
+              <img className="h-6 w-6 md:h-8 md:w-8" src={XTicTacToeImg} alt="X" />
+              <span className="text-xl font-black md:text-2xl">Start</span>
+              <img className="h-6 w-6 md:h-8 md:w-8" src={OTicTacToeImg} alt="O" />
             </button>
           </div>
         </div>
 
-        <motion.div
-          className="absolute left-[8%] top-[15%] w-[18%] -rotate-[30deg] sm:w-[15%] md:w-[10%]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <motion.div className="absolute left-[8%] top-[15%] w-[18%] -rotate-[30deg] sm:w-[15%] md:w-[10%]">
           <img className="h-full w-full" src={XTicTacToeImg} alt="X" />
         </motion.div>
 
