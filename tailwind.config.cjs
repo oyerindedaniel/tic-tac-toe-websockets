@@ -3,11 +3,13 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     screens: {
-      sm: { min: '640px' },
+      xs: { min: '352px' },
+
+      sm: { min: '480px' },
 
       md: { min: '768px' },
 
-      lg: { min: '1024px' },
+      lg: { min: '992px' },
 
       xl: { min: '1280px' },
 
@@ -18,15 +20,10 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: {
-          'dark-violet': 'hsl(256, 26%, 20%)',
-          'grayish-blue': 'hsl(216, 30%, 68%)'
-        },
-        neutral: {
-          'very-dark-violet': 'hsl(270, 9%, 17%)',
-          'dark-grayish-violet': 'hsl(273, 4%, 51%)',
-          'very-light-gray': 'hsl(0, 0%, 98%)'
-        }
+        blue: '#3D7AD6',
+        lightBlue: '#23ACF9',
+        yellow: '#fcd015',
+        lightCyan: '#c9f9fd'
       }
     }
   },

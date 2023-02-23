@@ -45,9 +45,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-curly-newline': 'off',
     'react/no-unknown-property': 'off',
-    'tailwindcss/classnames-order': 'off',
     'tailwindcss/no-custom-classname': 'off',
-    'typescript-eslint/no-unused-vars': 'off',
     'linebreak-style': 'off'
   }
 };

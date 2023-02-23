@@ -1,15 +1,19 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import Home from './routes/home';
 import User from './routes/user';
 import Game from './routes/game';
+import Layout from '@/components/Layout';
 import NotFound from './routes/not-found';
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate replace to="/user" />} />
+      {/* <Layout> */}
+      <Route path="/" element={<Home />} />
       <Route path="user" element={<User />} />
       <Route path="game/:userId" element={<Game />} />
       <Route path="*" element={<NotFound />} />
+      {/* </Layout> */}
     </Routes>
   );
 };

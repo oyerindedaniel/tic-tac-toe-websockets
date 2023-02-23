@@ -6,16 +6,7 @@
 
 @layer base {
   html {
-    @apply font-body font-normal;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading;
+    @apply font-inter;
   }
 
   li {
@@ -25,27 +16,13 @@
 
 @layer components {
   .button {
-    @apply border-2 py-2 px-5 uppercase transition duration-300 ease-in-out;
-    &--white {
-      @apply border-primary-dark-violet bg-white text-primary-dark-violet;
-    }
-    &--violet {
-      @apply border-white bg-primary-dark-violet text-white;
-    }
-    &--white:hover {
-      @apply bg-primary-dark-violet text-white;
-    }
-    &--violet:hover {
-      @apply bg-white text-primary-dark-violet;
-    }
+    @apply w-[max-content] cursor-pointer rounded-md bg-white py-2 px-2 font-extrabold uppercase text-lightBlue shadow-md transition duration-300 ease-in-out md:py-3 md:px-4;
+  }
+
+  .button:hover {
+    @apply scale-105;
   }
 }
 
 @layer utilities {
-  .gridColumnsTemplate-10 {
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  }
-  .gridColumnsTemplate-15 {
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  }
 }
