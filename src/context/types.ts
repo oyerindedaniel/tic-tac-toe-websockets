@@ -2,7 +2,7 @@ export interface GlobalContextState {
   user: {
     userId: string;
     userName: string;
-    userPhoto: string;
+    userPhotoId: string;
   };
 }
 

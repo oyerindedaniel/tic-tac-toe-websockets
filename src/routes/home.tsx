@@ -15,8 +15,8 @@ const Home = () => {
           <div className="absolute left-1/2 bottom-[0] -translate-y-[-115%] -translate-x-1/2">
             <button
               type="button"
-              onClick={() => navigate('/user')}
-              className="button flex items-center gap-1 sm:top-[80%]"
+              onClick={() => navigate('/game/user')}
+              className="button flex items-center gap-1"
             >
               <img className="h-6 w-6 md:h-8 md:w-8" src={XTicTacToeImg} alt="X" />
               <span className="text-xl font-black md:text-2xl">Start</span>

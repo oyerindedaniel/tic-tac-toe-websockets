@@ -8,6 +8,7 @@ const reducer: GlobalContextReducer = (state, action) => {
       newState = {
         ...state,
         user: {
+          ...state.user,
           ...action.payload
         }
       };
