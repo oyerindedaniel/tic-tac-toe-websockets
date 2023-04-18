@@ -7,8 +7,7 @@ import { generateID } from '@/utils';
 const User = () => {
   const { state, dispatch } = useGlobalStoreContext();
   const [userName, setUserName] = useState(state.user.userName);
-  console.log(state.user.userName);
-  const userNameRef = useRef<HTMLInputElement>(null);
+  const userNameRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,10 +16,10 @@ const User = () => {
       type: 'SET_USER',
       payload: { userName: userNameRef?.current?.value || '' }
     });
-    navigate('/waiting-room');
+    navigate('/game/waiting-room');
   };
 
-  const changeUserAvatar = (): void => {
+  const changeUserAvatar = () => {
     dispatch({
       type: 'SET_USER',
       payload: { userPhotoId: generateID(10) }
@@ -37,7 +36,7 @@ const User = () => {
           <img
             className="m-auto h-24 w-24 md:h-28 md:w-28"
             src={`https://avatars.dicebear.com/api/big-smile/${state.user.userPhotoId}.svg?skinColor=variant07,variant08`}
-            alt={`player ${state.user.userPhotoId}}'s avatar`}
+            alt={`player ${state.user.userName}'s avatar`}
           />
           <button
             onClick={() => changeUserAvatar()}
