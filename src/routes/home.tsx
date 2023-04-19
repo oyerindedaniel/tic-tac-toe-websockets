@@ -5,7 +5,7 @@ import { HeaderMainTicTacToeImg, XTicTacToeImg, OTicTacToeImg } from '@/assets/c
 const Home = () => {
   const navigate = useNavigate();
   return (
-    <section className="relative h-[100vh] w-full overflow-hidden bg-blue">
+    <section className="relative min-h-[100vh] w-full overflow-hidden bg-blue">
       <div className="absolute top-1/2 left-1/2 h-full max-h-[35rem] w-full max-w-[35rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-lightBlue blur-3xl">
         &nbsp;
       </div>
@@ -15,7 +15,7 @@ const Home = () => {
           <button
             type="button"
             onClick={() => navigate('/game/user')}
-            className="button flex items-center gap-1"
+            className="button button--lg flex items-center gap-1"
           >
             <img className="h-6 w-6 md:h-8 md:w-8" src={XTicTacToeImg} alt="X" />
             <span className="text-xl font-black md:text-2xl">Start</span>

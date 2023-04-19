@@ -27,7 +27,7 @@ const User = () => {
   };
 
   return (
-    <section className="relative flex h-[100vh] w-full items-center justify-center bg-blue px-4">
+    <section className="relative flex min-h-[100vh] w-full items-center justify-center bg-blue px-4">
       <div className="absolute top-1/2 left-1/2 h-full max-h-[35rem] w-full max-w-[35rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-lightBlue blur-3xl">
         &nbsp;
       </div>
@@ -40,7 +40,7 @@ const User = () => {
           />
           <button
             onClick={() => changeUserAvatar()}
-            className="button m-auto flex items-center gap-1"
+            className="button button--lg m-auto flex items-center gap-1"
             type="submit"
           >
             <span className="text-xl font-black md:text-2xl">Change Avatar</span>
@@ -56,7 +56,7 @@ const User = () => {
             type="text"
             required
           />
-          <button className="button m-auto mt-4 flex items-center gap-1" type="submit">
+          <button className="button button--lg m-auto mt-4 flex items-center gap-1" type="submit">
             <span className="text-xl font-black md:text-2xl">Submit</span>
             <img className="h-6 w-6 md:h-8 md:w-8" src={SubmitArrow} alt="Submit Arrow" />
           </button>

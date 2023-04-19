@@ -13,22 +13,38 @@ const WaitingRoom = () => {
     }
   } = useGlobalStoreContext();
   const [activeUsers, setActiveUsers] = useState<Array<User> | []>([]);
+  const [isRequestPlayer2, setIsRequestPlayer2] = useState<boolean>(false);
 
   useEffect(() => {
     if (isConnected) {
-      console.log(isConnected);
-      console.log({ userName, socketID: socket.id, userPhotoId });
-      socket.emit('newUser', { userName, socketID: socket.id, userPhoto: userPhotoId });
+      socket.emit('newUser', { userName, socketID: socket.id, userPhotoId });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
 
+  // useEffect(() => {
+  //   socket.on('activeUsers', (data: Array<User>) => {
+  //     console.log(data);
+  //     setActiveUsers(() => [...data]);
+  //   });
+  // }, []);
+
   useEffect(() => {
-    socket.on('activeUsers', (data: Array<User>) => {
-      console.log(data);
-      setActiveUsers(() => [...data]);
-    });
-  }, []);
+    if (isConnected) {
+      socket.on('allConnectedUsers', (data: Array<User>) => {
+        const filterOutSelf = data.filter((user) => user.socketID !== socket?.id);
+        setActiveUsers(() => [...filterOutSelf]);
+      });
+    }
+  }, [isConnected]);
+
+  useEffect(() => {
+    if (isConnected) {
+      socket.on('requestPlayer2', (data: User) => {
+        setIsRequestPlayer2(true);
+      });
+    }
+  }, [isConnected]);
 
   console.log(activeUsers);
 
@@ -45,20 +61,26 @@ const WaitingRoom = () => {
           />
         </div>
         <div className="flex flex-col sm:flex-row">
-          <div className="h-full min-h-[15rem] flex-[65%] px-2 text-lg sm:min-h-[25rem]">
-            <p>Waiting Players</p>
-            <div>
+          <div className="h-full min-h-[15rem] flex-[65%] text-lg sm:min-h-[25rem]">
+            <p className="mb-2">Waiting Players</p>
+            <div className="flex flex-col gap-2">
               {activeUsers.map((user) => (
                 <WaitingPlayerCard
                   key={user.socketID}
                   userName={user.userName}
                   userPhotoId={user.userPhotoId}
+                  socketID={user?.socketID || ''}
                 />
               ))}
             </div>
           </div>
-          <div className="min-h-[10rem] flex-[35%] px-2  text-lg">
+          <div className="min-h-[10rem] flex-[35%] px-2 text-lg">
             <p>Requests</p>
+            {isRequestPlayer2 && (
+              <button className="button button--md" type="submit">
+                Accept
+              </button>
+            )}
           </div>
         </div>
       </div>
