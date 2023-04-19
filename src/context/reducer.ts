@@ -14,6 +14,16 @@ const reducer: GlobalContextReducer = (state, action) => {
       };
       break;
     }
+    case 'SET_SOCKET-IO': {
+      newState = {
+        ...state,
+        socketIO: {
+          ...state.socketIO,
+          isConnected: action.payload
+        }
+      };
+      break;
+    }
 
     default:
       throw new Error(`No such type ${action.type}`);

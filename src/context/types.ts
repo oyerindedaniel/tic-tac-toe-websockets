@@ -4,9 +4,12 @@ export interface GlobalContextState {
     userName: string;
     userPhotoId: string;
   };
+  socketIO: {
+    isConnected: boolean;
+  };
 }
 
-export type GlobalContextActionTypes = 'SET_USER';
+export type GlobalContextActionTypes = 'SET_USER' | 'SET_SOCKET-IO';
 
 export interface GlobalContextAction {
   type: GlobalContextActionTypes;

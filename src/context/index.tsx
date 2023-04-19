@@ -19,6 +19,9 @@ export const initialState: GlobalContextState = localStorageState
         userId: '',
         userName: '',
         userPhotoId: generateID(10)
+      },
+      socketIO: {
+        isConnected: false
       }
     };
 

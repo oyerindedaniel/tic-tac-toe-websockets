@@ -15,17 +15,13 @@ const ProtectedLayout: FC = () => {
 
   useEffect(() => {
     if (!userName) {
-      toast.error('Enter your preferred Username 😒');
-      navigate('/game/user');
+      toast.error('Enter your game name 😒❌');
+      return navigate('/game/user');
     }
 
     socket.connect();
-    socket.on('connect', () => {
-      console.log('Connected to socket.io server!');
-    });
 
     return () => {
-      console.log('Disconnecting from socket.io server...');
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
