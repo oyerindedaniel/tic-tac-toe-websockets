@@ -13,6 +13,7 @@ export type GlobalContextActionTypes = 'SET_USER' | 'SET_SOCKET-IO';
 
 export interface GlobalContextAction {
   type: GlobalContextActionTypes;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload?: any;
 }
 

@@ -40,7 +40,7 @@ const User = () => {
           />
           <button
             onClick={() => changeUserAvatar()}
-            className="button button--lg m-auto flex items-center gap-1"
+            className="button button--lg button--bg-white m-auto flex items-center gap-1"
             type="submit"
           >
             <span className="text-xl font-black md:text-2xl">Change Avatar</span>
@@ -56,7 +56,10 @@ const User = () => {
             type="text"
             required
           />
-          <button className="button button--lg m-auto mt-4 flex items-center gap-1" type="submit">
+          <button
+            className="button button--lg button--bg-white m-auto mt-4 flex items-center gap-1"
+            type="submit"
+          >
             <span className="text-xl font-black md:text-2xl">Submit</span>
             <img className="h-6 w-6 md:h-8 md:w-8" src={SubmitArrow} alt="Submit Arrow" />
           </button>
