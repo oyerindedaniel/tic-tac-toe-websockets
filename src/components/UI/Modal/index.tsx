@@ -14,6 +14,7 @@ export const ModalTitle: FC<ModalTitleType> = ({ children }) => {
     </Dialog.Title>
   );
 };
+
 export const ModalBody: FC<ModalBodyType> = ({ children }) => {
   return (
     <div className="mt-4">
@@ -23,8 +24,10 @@ export const ModalBody: FC<ModalBodyType> = ({ children }) => {
     </div>
   );
 };
+
 export const ModalFooter: FC<ModelFooterType> = ({ children }) => {
-  return <div>{children}</div>;
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
 };
 export const Modal: FC<ModalType> = ({ onClose, isOpen, children }) => {
   return (
