@@ -5,10 +5,12 @@ export interface User {
   isPlaying: boolean;
   isRequestAccepted: boolean;
   requests?: Array<User>;
-  asRequested?: boolean;
+  asRequested?: boolean; // Frontend
+  acceptedRequest?: boolean;
 }
 
 export interface Message {
+  title?: string;
   message: string;
   status: string;
 }

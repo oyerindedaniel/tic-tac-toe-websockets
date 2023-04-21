@@ -16,7 +16,6 @@ export const initialState: GlobalContextState = localStorageState
     }
   : {
       user: {
-        userId: '',
         userName: '',
         userPhotoId: generateID(10)
       },

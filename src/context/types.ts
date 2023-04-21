@@ -1,9 +1,7 @@
+import { User } from '../../types';
+
 export interface GlobalContextState {
-  user: {
-    userId: string;
-    userName: string;
-    userPhotoId: string;
-  };
+  user: Partial<User>;
   socketIO: {
     isConnected: boolean;
   };

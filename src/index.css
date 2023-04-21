@@ -16,7 +16,7 @@
 
 @layer components {
   .button {
-    @apply w-[max-content] cursor-pointer rounded-md   uppercase  shadow-md transition duration-300 ease-in-out focus:scale-105 focus:shadow-md focus:outline-none;
+    @apply w-[max-content] cursor-pointer rounded-md uppercase shadow-md transition duration-300 ease-in-out hover:scale-105 focus:scale-105 focus:shadow-md focus:outline-none;
 
     &--bg-white {
       @apply bg-white text-lightBlue;
@@ -24,6 +24,10 @@
 
     &--bg-lightBlue {
       @apply bg-lightBlue text-white;
+    }
+
+    &--bg-gray {
+      @apply bg-gray-400 text-white;
     }
 
     &--lg {
@@ -37,10 +41,6 @@
 
   .input {
     @apply rounded-md py-2 px-2 text-xl font-black uppercase text-lightBlue placeholder-gray-300 shadow-md transition duration-300 ease-in-out focus:scale-105 focus:shadow-md focus:outline-none;
-  }
-
-  .button:hover {
-    @apply scale-105;
   }
 }
 

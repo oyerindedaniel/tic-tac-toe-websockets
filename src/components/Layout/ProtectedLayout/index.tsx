@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { FC, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
