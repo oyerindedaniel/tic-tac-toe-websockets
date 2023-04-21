@@ -2,7 +2,14 @@ import { FC } from 'react';
 import socket from '@/utils/socketio';
 import { User } from '../../../types';
 
-const WaitingPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID, asRequested }) => {
+const WaitingPlayerCard: FC<Partial<User> & { onOpen: () => void }> = ({
+  userName,
+  userPhotoId,
+  socketID,
+  asRequested,
+  onOpen,
+  acceptedRequest
+}) => {
   const requestPlayer = () => {
     socket.emit('requestPlayer', {
       userName: userName?.toUpperCase() || '',
@@ -25,6 +32,15 @@ const WaitingPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID,
           onClick={() => requestPlayer()}
         >
           <span className="text-md font-black md:text-lg">Request</span>
+        </button>
+      )}
+      {acceptedRequest && (
+        <button
+          className="button button--md button--bg-lightBlue"
+          type="button"
+          onClick={() => onOpen()}
+        >
+          <span className="text-md font-black md:text-lg">Open</span>
         </button>
       )}
     </div>

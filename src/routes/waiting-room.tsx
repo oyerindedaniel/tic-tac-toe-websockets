@@ -8,7 +8,7 @@ import { User, Message, Status } from '../../types';
 import WaitingPlayerCard from '@/components/WaitingPlayerCard';
 import RequestPlayerCard from '@/components/RequestPlayerCard';
 import { useDisclosure } from '@/hooks/useDisclosure';
-import { Modal } from '@/components/UI/Modal';
+import WaitingPlayerModal from '@/components/WaitingPlayerCard/Modal';
 
 const WaitingRoom = () => {
   const {
@@ -21,7 +21,6 @@ const WaitingRoom = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeUsers, setActiveUsers] = useState<Array<User>>([]);
   const [requestPlayers, setRequestPlayers] = useState<Array<User>>([]);
-  const [acceptedRequest, setAcceptedRequest] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<Message | null>(null);
 
   useEffect(() => {
@@ -65,7 +64,14 @@ const WaitingRoom = () => {
 
   useEffect(() => {
     const handleAcceptRequestPlayer = (data: User) => {
-      if (data?.acceptedRequest) setAcceptedRequest(true);
+      setActiveUsers(
+        activeUsers.map((user) => {
+          if (user.socketID === data.socketID) {
+            return data;
+          }
+          return user;
+        })
+      );
     };
 
     socket.on('acceptRequestPlayer', handleAcceptRequestPlayer);
@@ -73,7 +79,7 @@ const WaitingRoom = () => {
     return () => {
       socket.off('acceptRequestPlayer', handleAcceptRequestPlayer);
     };
-  }, [navigate]);
+  }, [activeUsers, navigate]);
 
   useEffect(() => {
     const handleStatusMessage = (data: Message) => {
@@ -85,7 +91,6 @@ const WaitingRoom = () => {
 
       if (data.status === Status.SUCCESS) {
         setSuccessMessage(data);
-        onOpen();
       }
     };
 
@@ -96,13 +101,9 @@ const WaitingRoom = () => {
     };
   }, [navigate, onOpen]);
 
-  //   <button type="button" onClick={onOpen}>
-  //   Open Disclosure
-  // </button>
-
   return (
     <>
-      <Modal
+      <WaitingPlayerModal
         isOpen={isOpen}
         onClose={onClose}
         modalTitle={successMessage?.title || ''}
@@ -131,6 +132,8 @@ const WaitingRoom = () => {
                       userPhotoId={user.userPhotoId}
                       socketID={user?.socketID || ''}
                       asRequested={user?.asRequested || false}
+                      acceptedRequest={user?.acceptedRequest || false}
+                      onOpen={onOpen}
                     />
                   ))}
               </div>
