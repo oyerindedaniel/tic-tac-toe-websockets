@@ -23,6 +23,9 @@ const WaitingPlayerCard: FC<Partial<User>> = ({
   return (
     <>
       <WaitingPlayerModal
+        userName={userName || ''}
+        userPhotoId={userPhotoId || ''}
+        socketID={socketID}
         isOpen={isOpen}
         onClose={onClose}
         modalTitle={successMessage?.title || ''}

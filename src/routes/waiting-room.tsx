@@ -30,6 +30,9 @@ const WaitingRoom = () => {
 
   useEffect(() => {
     const onConnectedUsers = (data: Array<User>) => {
+      // const filterOutSelf = data.filter(
+      //   (user) => user.socketID !== socket?.id && user.acceptedRequest && user.isRequestAccepted
+      // );
       const filterOutSelf = data.filter((user) => user.socketID !== socket?.id);
       setActiveUsers(filterOutSelf);
     };
@@ -128,7 +131,7 @@ const WaitingRoom = () => {
           <img
             className="h-8 w-8"
             src={`https://avatars.dicebear.com/api/big-smile/${userPhotoId}.svg?skinColor=variant07,variant08`}
-            alt={`player ${userName}}'s avatar`}
+            alt={`player ${userName}'s avatar`}
           />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">

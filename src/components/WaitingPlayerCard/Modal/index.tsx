@@ -1,14 +1,26 @@
 import { FC } from 'react';
 import { Modal, ModalTitle, ModalBody, ModalFooter } from '@/components/UI/Modal';
+import socket from '@/utils/socketio';
 import { WaitingPlayerModalType } from './types';
 
 const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
+  userName,
+  userPhotoId,
+  socketID,
   isOpen,
   onClose,
   modalBody,
   modalTitle
 }) => {
   const declineAcceptedRequestPlayer = () => {};
+
+  const acceptPlayerRequest = () => {
+    socket.emit('acceptPlayerRequest', {
+      userName: userName?.toUpperCase() || '',
+      socketID,
+      userPhotoId
+    });
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalTitle>{modalTitle}</ModalTitle>
@@ -25,7 +37,10 @@ const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
           <button
             className="button button--md button--bg-lightBlue font-semibold"
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              acceptPlayerRequest();
+              onClose();
+            }}
           >
             Accept
           </button>

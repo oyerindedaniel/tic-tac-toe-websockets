@@ -3,8 +3,8 @@ import socket from '@/utils/socketio';
 import { User } from '../../../types';
 
 const RequestPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID }) => {
-  const acceptRequestPlayer = () => {
-    socket.emit('acceptRequestPlayer', {
+  const makeAcceptPlayerRequest = () => {
+    socket.emit('makeAcceptPlayerRequest', {
       userName: userName?.toUpperCase() || '',
       socketID,
       userPhotoId
@@ -39,7 +39,7 @@ const RequestPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID 
         className="button button--md button--bg-lightBlue"
         aria-label="accept player request"
         type="button"
-        onClick={() => acceptRequestPlayer()}
+        onClick={() => makeAcceptPlayerRequest()}
       >
         <span className="text-md font-black md:text-lg">Accept</span>
       </button>

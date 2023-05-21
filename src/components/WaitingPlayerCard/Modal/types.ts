@@ -4,4 +4,7 @@ export interface WaitingPlayerModalType {
   onClose: () => void;
   modalTitle: string;
   modalBody: string;
+  userName: string;
+  userPhotoId: string;
+  socketID: string | undefined;
 }
