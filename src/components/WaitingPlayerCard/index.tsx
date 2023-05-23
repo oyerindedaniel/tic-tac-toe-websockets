@@ -4,13 +4,14 @@ import { User } from '../../../types';
 import WaitingPlayerModal from './Modal';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
-const WaitingPlayerCard: FC<Partial<User>> = ({
+const WaitingPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined }> = ({
   userName,
   userPhotoId,
   socketID,
   asRequested,
   acceptedRequest,
-  successMessage
+  successMessage,
+  requestedPlayer
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const requestPlayer = () => {
@@ -38,15 +39,15 @@ const WaitingPlayerCard: FC<Partial<User>> = ({
           alt={`player ${userName}}'s avatar`}
         />
         <p className="mr-auto text-lg uppercase">@{userName}</p>
-        {!asRequested && (
-          <button
-            className="button button--md button--bg-lightBlue"
-            type="button"
-            onClick={() => requestPlayer()}
-          >
-            <span className="text-md font-black md:text-lg">Request</span>
-          </button>
-        )}
+        <button
+          className="button button--md button--bg-lightBlue button--disabled"
+          type="button"
+          onClick={() => requestPlayer()}
+          disabled={asRequested || !!requestedPlayer}
+        >
+          <span className="text-md font-black md:text-lg">Request</span>
+        </button>
+
         {acceptedRequest && (
           <button
             className="button button--md button--bg-lightBlue"

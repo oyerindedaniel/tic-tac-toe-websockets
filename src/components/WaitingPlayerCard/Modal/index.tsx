@@ -21,6 +21,7 @@ const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
       userPhotoId
     });
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalTitle>{modalTitle}</ModalTitle>

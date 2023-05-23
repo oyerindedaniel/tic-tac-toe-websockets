@@ -37,6 +37,10 @@
     &--md {
       @apply py-2 px-2 md:py-2 md:px-3;
     }
+
+    &--disabled {
+      @apply disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
+    }
   }
 
   .input {

@@ -2,7 +2,12 @@ import { FC } from 'react';
 import socket from '@/utils/socketio';
 import { User } from '../../../types';
 
-const RequestPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID }) => {
+const RequestPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined }> = ({
+  userName,
+  userPhotoId,
+  socketID,
+  requestedPlayer
+}) => {
   const makeAcceptPlayerRequest = () => {
     socket.emit('makeAcceptPlayerRequest', {
       userName: userName?.toUpperCase() || '',
@@ -12,7 +17,7 @@ const RequestPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID 
   };
 
   const declineRequestPlayer = () => {
-    socket.emit('declineRequestPlayer', {
+    socket.emit('declinePlayerRequest', {
       userName: userName?.toUpperCase() || '',
       socketID,
       userPhotoId
@@ -36,10 +41,11 @@ const RequestPlayerCard: FC<Partial<User>> = ({ userName, userPhotoId, socketID 
         <span className="text-md font-black md:text-lg">Decline</span>
       </button>
       <button
-        className="button button--md button--bg-lightBlue"
+        className="button button--md button--bg-lightBlue button--disabled"
         aria-label="accept player request"
         type="button"
         onClick={() => makeAcceptPlayerRequest()}
+        disabled={!!requestedPlayer}
       >
         <span className="text-md font-black md:text-lg">Accept</span>
       </button>
