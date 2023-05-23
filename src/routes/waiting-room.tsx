@@ -73,7 +73,6 @@ const WaitingRoom = () => {
   const handleDeclineAcceptedPlayerRequest = () => {};
 
   const handleAcceptPlayerRequest = (data: User) => {
-    console.log('daniel');
     const { socketID, acceptedRequest, requests } = data || {};
     setActiveUsers((prevActiveUsers) => {
       return prevActiveUsers.map((user) => {
