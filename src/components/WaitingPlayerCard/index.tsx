@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import socket from '@/utils/socketio';
 import { User } from '../../../types';
-import WaitingPlayerModal from './Modal';
+import WaitingPlayerCardModal from './Modal';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
 const WaitingPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined }> = ({
@@ -23,7 +23,7 @@ const WaitingPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined 
   };
   return (
     <>
-      <WaitingPlayerModal
+      <WaitingPlayerCardModal
         userName={userName || ''}
         userPhotoId={userPhotoId || ''}
         socketID={socketID}

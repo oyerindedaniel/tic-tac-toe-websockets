@@ -43,7 +43,7 @@ const App = () => {
         <Route path="/game/user" element={<User />} />
         <Route path="game" element={<ProtectedLayout />}>
           <Route path="waiting-room" element={<WaitingRoom />} />
-          <Route path=":userId" element={<Game />} />
+          <Route path=":socketId" element={<Game />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

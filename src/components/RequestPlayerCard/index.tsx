@@ -8,8 +8,8 @@ const RequestPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined 
   socketID,
   requestedPlayer
 }) => {
-  const makeAcceptPlayerRequest = () => {
-    socket.emit('makeAcceptPlayerRequest', {
+  const acceptPlayerRequest = () => {
+    socket.emit('acceptPlayerRequest', {
       userName: userName?.toUpperCase() || '',
       socketID,
       userPhotoId
@@ -44,7 +44,7 @@ const RequestPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined 
         className="button button--md button--bg-lightBlue button--disabled"
         aria-label="accept player request"
         type="button"
-        onClick={() => makeAcceptPlayerRequest()}
+        onClick={() => acceptPlayerRequest()}
         disabled={!!requestedPlayer}
       >
         <span className="text-md font-black md:text-lg">Accept</span>

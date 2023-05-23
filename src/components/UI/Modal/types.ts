@@ -4,6 +4,7 @@ export interface Modal {
   isOpen: boolean;
   onOpen?: () => void;
   onClose: () => void;
+  closeOnOverlayClick?: boolean;
   children: ReactNode;
 }
 

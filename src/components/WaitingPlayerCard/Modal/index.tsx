@@ -3,7 +3,7 @@ import { Modal, ModalTitle, ModalBody, ModalFooter } from '@/components/UI/Modal
 import socket from '@/utils/socketio';
 import { WaitingPlayerModalType } from './types';
 
-const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
+const WaitingPlayerCardModal: FC<WaitingPlayerModalType> = ({
   userName,
   userPhotoId,
   socketID,
@@ -12,10 +12,16 @@ const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
   modalBody,
   modalTitle
 }) => {
-  const declineAcceptedRequestPlayer = () => {};
+  const declineAcceptedRequestPlayer = () => {
+    socket.emit('declineAcceptedPlayerRequest', {
+      userName: userName?.toUpperCase() || '',
+      socketID,
+      userPhotoId
+    });
+  };
 
-  const acceptPlayerRequest = () => {
-    socket.emit('acceptPlayerRequest', {
+  const acceptAcceptedPlayerRequest = () => {
+    socket.emit('acceptAcceptedPlayerRequest', {
       userName: userName?.toUpperCase() || '',
       socketID,
       userPhotoId
@@ -31,15 +37,18 @@ const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
           <button
             className="button button--md button--bg-gray font-semibold"
             type="button"
-            onClick={declineAcceptedRequestPlayer}
+            onClick={() => {
+              declineAcceptedRequestPlayer();
+              onClose();
+            }}
           >
-            Cancel
+            Decline
           </button>
           <button
             className="button button--md button--bg-lightBlue font-semibold"
             type="button"
             onClick={() => {
-              acceptPlayerRequest();
+              acceptAcceptedPlayerRequest();
               onClose();
             }}
           >
@@ -50,4 +59,4 @@ const WaitingPlayerModal: FC<WaitingPlayerModalType> = ({
     </Modal>
   );
 };
-export default WaitingPlayerModal;
+export default WaitingPlayerCardModal;

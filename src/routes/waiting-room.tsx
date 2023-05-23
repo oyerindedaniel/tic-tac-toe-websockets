@@ -7,6 +7,8 @@ import socket from '@/utils/socketio';
 import { User, Message, Status } from '../../types';
 import WaitingPlayerCard from '@/components/WaitingPlayerCard';
 import RequestPlayerCard from '@/components/RequestPlayerCard';
+import WaitingPlayerModal from '@/components/WaitingRoom/Modal';
+import { useDisclosure } from '@/hooks/useDisclosure';
 
 const WaitingRoom = () => {
   const {
@@ -16,6 +18,7 @@ const WaitingRoom = () => {
     }
   } = useGlobalStoreContext();
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeUsers, setActiveUsers] = useState<Array<User>>([]);
   const [requestPlayers, setRequestPlayers] = useState<Array<User>>([]);
   const [requestedPlayer, setRequestedPlayer] = useState<User | undefined>();
@@ -53,18 +56,31 @@ const WaitingRoom = () => {
     }
   };
 
-  const handleAcceptPlayerRequest = (data: User) => {};
+  const handleAcceptAcceptedPlayerRequest = () => {
+    onOpen();
+  };
 
   const handleDeclinePlayerRequest = (data: User) => {
+    const { socketID } = data || {};
+    const activeUsersUpdated = activeUsers.map((user) => {
+      if (user.socketID === socketID) return { ...user, asRequested: false };
+      return user;
+    });
+    setActiveUsers(activeUsersUpdated);
     setRequestedPlayer(undefined);
   };
 
-  const handleMakeAcceptPlayerRequest = (data: User) => {
+  const handleDeclineAcceptedPlayerRequest = () => {};
+
+  const handleAcceptPlayerRequest = (data: User) => {
+    console.log('daniel');
     const { socketID, acceptedRequest, requests } = data || {};
     setActiveUsers((prevActiveUsers) => {
       return prevActiveUsers.map((user) => {
         if (user.socketID === socketID && acceptedRequest && requests) {
-          const isRequestUserRequestAccepted = requests.some((u) => u.socketID === socket.id);
+          const isRequestUserRequestAccepted = requests.some(
+            (u) => u.socketID === socket.id && u.isRequestAccepted
+          );
           return { ...user, acceptedRequest: isRequestUserRequestAccepted };
         }
         return user;
@@ -79,8 +95,9 @@ const WaitingRoom = () => {
   socket.on('allConnectedUsers', onConnectedUsers);
   socket.on('allGameRequestsUsers', onGameRequestsUsers);
   socket.on('requestPlayer2', handlePlayerRequest);
-  socket.on('makeAcceptPlayerRequest', handleMakeAcceptPlayerRequest);
   socket.on('acceptPlayerRequest', handleAcceptPlayerRequest);
+  socket.on('acceptAcceptedPlayerRequest', handleAcceptAcceptedPlayerRequest);
+  socket.on('declineAcceptedPlayerRequest', handleDeclineAcceptedPlayerRequest);
   socket.on('declinePlayerRequest', handleDeclinePlayerRequest);
   socket.on('requestedPlayer', handleRequestedPlayerRequest);
 
@@ -109,67 +126,70 @@ const WaitingRoom = () => {
   }, [activeUsers, navigate]);
 
   return (
-    <section className="flex h-[100vh] w-full items-center justify-center bg-blue px-4">
-      <div className="z-10 w-full max-w-[65rem] rounded-lg bg-white p-4 sm:p-8">
-        <h2 className="text-2xl font-black uppercase">Waiting Room</h2>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <p className="text-lg font-semibold uppercase">@{userName}</p>
-            <img
-              className="h-8 w-8"
-              src={`https://avatars.dicebear.com/api/big-smile/${userPhotoId}.svg?skinColor=variant07,variant08`}
-              alt={`player ${userName}'s avatar`}
-            />
-          </div>
-          {requestedPlayer && (
+    <>
+      <WaitingPlayerModal isOpen={isOpen} onClose={onClose} />
+      <section className="flex h-[100vh] w-full items-center justify-center bg-blue px-4">
+        <div className="z-10 w-full max-w-[65rem] rounded-lg bg-white p-4 sm:p-8">
+          <h2 className="text-2xl font-black uppercase">Waiting Room</h2>
+          <div className="flex justify-between">
             <div className="flex items-center gap-2">
-              <p className="text-lg font-normal">Awaiting @{requestedPlayer.userName}</p>
+              <p className="text-lg font-semibold uppercase">@{userName}</p>
               <img
                 className="h-8 w-8"
-                src={`https://avatars.dicebear.com/api/big-smile/${requestedPlayer.userPhotoId}.svg?skinColor=variant07,variant08`}
+                src={`https://avatars.dicebear.com/api/big-smile/${userPhotoId}.svg?skinColor=variant07,variant08`}
                 alt={`player ${userName}'s avatar`}
               />
-              <p className="text-lg font-normal">to accept request</p>
             </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <div className="h-full min-h-[15rem] flex-[50%] text-lg sm:min-h-[25rem]">
-            <p className="mb-2">Waiting Players</p>
-            <div className="flex flex-col gap-2">
-              {activeUsers.length > 0 &&
-                activeUsers.map((user) => (
-                  <WaitingPlayerCard
-                    key={user.socketID}
-                    userName={user.userName}
-                    userPhotoId={user.userPhotoId}
-                    socketID={user?.socketID}
-                    asRequested={user?.asRequested || false}
-                    acceptedRequest={user?.acceptedRequest || false}
-                    successMessage={user.successMessage}
-                    requestedPlayer={requestedPlayer}
-                  />
-                ))}
+            {requestedPlayer && (
+              <div className="flex items-center gap-2">
+                <p className="text-lg font-normal">Awaiting @{requestedPlayer.userName}</p>
+                <img
+                  className="h-8 w-8"
+                  src={`https://avatars.dicebear.com/api/big-smile/${requestedPlayer.userPhotoId}.svg?skinColor=variant07,variant08`}
+                  alt={`player ${userName}'s avatar`}
+                />
+                <p className="text-lg font-normal">to accept request</p>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="h-full min-h-[15rem] flex-[50%] text-lg sm:min-h-[25rem]">
+              <p className="mb-2">Waiting Players</p>
+              <div className="flex flex-col gap-2">
+                {activeUsers.length > 0 &&
+                  activeUsers.map((user) => (
+                    <WaitingPlayerCard
+                      key={user.socketID}
+                      userName={user.userName}
+                      userPhotoId={user.userPhotoId}
+                      socketID={user?.socketID}
+                      asRequested={user?.asRequested || false}
+                      acceptedRequest={user?.acceptedRequest || false}
+                      successMessage={user.successMessage}
+                      requestedPlayer={requestedPlayer}
+                    />
+                  ))}
+              </div>
+            </div>
+            <div className="h-full min-h-[15rem] flex-[50%] text-lg sm:min-h-[25rem]">
+              <p className="mb-2">Requests</p>
+              <div className="flex flex-col gap-2">
+                {requestPlayers.length > 0 &&
+                  requestPlayers.map((user) => (
+                    <RequestPlayerCard
+                      key={user.socketID}
+                      userName={user.userName}
+                      userPhotoId={user.userPhotoId}
+                      socketID={user?.socketID}
+                      requestedPlayer={requestedPlayer}
+                    />
+                  ))}
+              </div>
             </div>
           </div>
-          <div className="h-full min-h-[15rem] flex-[50%] text-lg sm:min-h-[25rem]">
-            <p className="mb-2">Requests</p>
-            <div className="flex flex-col gap-2">
-              {requestPlayers.length > 0 &&
-                requestPlayers.map((user) => (
-                  <RequestPlayerCard
-                    key={user.socketID}
-                    userName={user.userName}
-                    userPhotoId={user.userPhotoId}
-                    socketID={user?.socketID}
-                    requestedPlayer={requestedPlayer}
-                  />
-                ))}
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

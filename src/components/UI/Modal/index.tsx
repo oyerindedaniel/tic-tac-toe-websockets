@@ -29,10 +29,14 @@ export const ModalFooter: FC<ModelFooterType> = ({ children }) => {
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{children}</>;
 };
-export const Modal: FC<ModalType> = ({ onClose, isOpen, children }) => {
+export const Modal: FC<ModalType> = ({ onClose, isOpen, closeOnOverlayClick, children }) => {
   return (
     <Transition show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-10 overflow-y-auto"
+        onClose={closeOnOverlayClick ? onClose : () => {}}
+      >
         <Dialog.Panel>
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
