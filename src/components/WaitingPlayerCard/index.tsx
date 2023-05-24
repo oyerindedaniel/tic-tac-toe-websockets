@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import socket from '@/utils/socketio';
 import { User } from '../../../types';
 import WaitingPlayerCardModal from './Modal';
@@ -14,6 +14,13 @@ const WaitingPlayerCard: FC<Partial<User> & { requestedPlayer: User | undefined 
   requestedPlayer
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (isOpen && !acceptedRequest) {
+      onClose();
+    }
+  }, [acceptedRequest, isOpen, onClose]);
+
   const requestPlayer = () => {
     socket.emit('requestPlayer', {
       userName: userName?.toUpperCase() || '',

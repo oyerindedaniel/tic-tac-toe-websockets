@@ -33,10 +33,7 @@ const WaitingRoom = () => {
   }, [isConnected, userName, userPhotoId]);
 
   const onConnectedUsers = (data: Array<User>) => {
-    const filterOutSelf = data.filter(
-      (user) => user.socketID !== socket?.id || user.acceptedRequest
-    );
-    setActiveUsers(filterOutSelf);
+    setActiveUsers(data.filter((user) => user.socketID !== socket?.id));
   };
 
   const onGameRequestsUsers = (data: User) => {
@@ -47,11 +44,12 @@ const WaitingRoom = () => {
   const handlePlayerRequest = (data: User) => {
     const { requests } = data || {};
     if (requests) {
-      const activeUsersUpdated = activeUsers.map((user) => {
-        const userInRequestPlayers = requests.some((u) => u.socketID === user.socketID);
-        return userInRequestPlayers ? { ...user, asRequested: true } : user;
+      setActiveUsers((prevActiveUsers) => {
+        return prevActiveUsers.map((user) => {
+          const userInRequestPlayers = requests.some((u) => u.socketID === user.socketID);
+          return userInRequestPlayers ? { ...user, asRequested: true } : user;
+        });
       });
-      setActiveUsers(activeUsersUpdated);
       setRequestPlayers(requests);
     }
   };
@@ -62,21 +60,36 @@ const WaitingRoom = () => {
 
   const handleDeclinePlayerRequest = (data: User) => {
     const { socketID } = data || {};
-    const activeUsersUpdated = activeUsers.map((user) => {
-      if (user.socketID === socketID) return { ...user, asRequested: false };
-      return user;
+    setActiveUsers((prevActiveUsers) => {
+      return prevActiveUsers.map((user) => {
+        if (user.socketID === socketID) {
+          return { ...user, acceptedRequest: false };
+        }
+        return user;
+      });
     });
-    setActiveUsers(activeUsersUpdated);
+  };
+
+  const handleDeclinePlayerResetRequest = (data: User) => {
+    const { socketID } = data || {};
+    setActiveUsers((prevActiveUsers) => {
+      return prevActiveUsers.map((user) => {
+        // asRequested: false enables the request button to allow request resend
+        if (user.socketID === socketID) return { ...user, asRequested: false };
+        return user;
+      });
+    });
     setRequestedPlayer(undefined);
   };
 
-  const handleDeclineAcceptedPlayerRequest = () => {};
-
   const handleAcceptPlayerRequest = (data: User) => {
     const { socketID, acceptedRequest, requests } = data || {};
+
+    console.log(acceptedRequest);
     setActiveUsers((prevActiveUsers) => {
       return prevActiveUsers.map((user) => {
         if (user.socketID === socketID && acceptedRequest && requests) {
+          console.log('ddd');
           const isRequestUserRequestAccepted = requests.some(
             (u) => u.socketID === socket.id && u.isRequestAccepted
           );
@@ -85,6 +98,7 @@ const WaitingRoom = () => {
         return user;
       });
     });
+    console.log('danna');
   };
 
   const handleRequestedPlayerRequest = (data: User) => {
@@ -96,7 +110,7 @@ const WaitingRoom = () => {
   socket.on('requestPlayer2', handlePlayerRequest);
   socket.on('acceptPlayerRequest', handleAcceptPlayerRequest);
   socket.on('acceptAcceptedPlayerRequest', handleAcceptAcceptedPlayerRequest);
-  socket.on('declineAcceptedPlayerRequest', handleDeclineAcceptedPlayerRequest);
+  socket.on('declinePlayerResetRequest', handleDeclinePlayerResetRequest);
   socket.on('declinePlayerRequest', handleDeclinePlayerRequest);
   socket.on('requestedPlayer', handleRequestedPlayerRequest);
 

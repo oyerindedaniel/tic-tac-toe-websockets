@@ -30,9 +30,9 @@ const WaitingPlayerModal: FC<WaitingRoomModalType> = ({ isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
-      <ModalTitle>Game Starting 🥶 ...</ModalTitle>
+      <ModalTitle>Game Starting 🥶 ... in {countdown} seconds</ModalTitle>
       <ModalBody>
-        <p className="text-center text-3xl font-bold text-blue">{countdown}</p>
+        <p className="text-center text-5xl font-bold text-blue">{countdown}</p>
       </ModalBody>
     </Modal>
   );
